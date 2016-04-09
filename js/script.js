@@ -3,7 +3,7 @@
 var margin = {
     top: 20, 
     right: 20, 
-    bottom: 30, 
+    bottom: 50, 
     left: 50
     };
     
@@ -38,7 +38,7 @@ var line = d3.svg.line()
         });
 
 //define SVG
-var svg = d3.select("body").append("svg")
+var svg = d3.select(".chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -66,14 +66,20 @@ d3.csv("data.csv", type, function(error, data) {
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+      .call(xAxis)
+    .append("text")
+      .attr("transform", "rotate(0)")
+      .attr("x", 8)
+      .attr("dy", ".71em")
+      .style("text-anchor", "start")
+      .text("Year");
 
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
       .attr("transform", "rotate(0)")
-      .attr("y", 9)
+      .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "start")
       .text("Unemployment Rate");

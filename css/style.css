@@ -19,4 +19,6 @@
   stroke-width: 1.5px;
 }
 
-
+#source-line {
+    font-style: italic;
+}
