@@ -13,6 +13,7 @@ var margin = {
 
 //parse date
 var formatDate = d3.time.format("%Y-%m-%d");
+//var formatPercent = d3.format(".1f");
 
 var x = d3.time.scale()
     .range([0, width]);
@@ -26,7 +27,10 @@ var xAxis = d3.svg.axis()
 
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left");
+    .orient("left")
+    .tickFormat(function(d) { 
+        return d.toFixed(1)+"%"; 
+    })
 
 //define variables for line chart
 var line = d3.svg.line()
@@ -62,6 +66,7 @@ d3.csv("data.csv", type, function(error, data) {
       return d.CLMUR; 
     }));
     
+    
 //call axis functions
   svg.append("g")
       .attr("class", "x axis")
@@ -90,6 +95,9 @@ d3.csv("data.csv", type, function(error, data) {
       .datum(data)
       .attr("class", "line")
       .attr("d", line);
+    
+    
+
 });
 
 
