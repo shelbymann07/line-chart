@@ -69,9 +69,10 @@ d3.csv("data.csv", type, function(error, data) {
       .call(xAxis)
     .append("text")
       .attr("transform", "rotate(0)")
-      .attr("x", 8)
+      .attr("y", -20)
+      .attr("x", 900)
       .attr("dy", ".71em")
-      .style("text-anchor", "start")
+      .style("text-anchor", "end")
       .text("Year");
 
   svg.append("g")
@@ -80,6 +81,7 @@ d3.csv("data.csv", type, function(error, data) {
     .append("text")
       .attr("transform", "rotate(0)")
       .attr("y", 6)
+      .attr("x", 6) 
       .attr("dy", ".71em")
       .style("text-anchor", "start")
       .text("Unemployment Rate");
