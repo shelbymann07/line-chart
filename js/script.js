@@ -3,7 +3,7 @@
 var chartThisValue = "CLMUR";
 
 var margin = {
-    top: 20, 
+    top: 50, 
     right: 20, 
     bottom: 50, 
     left: 50
@@ -15,7 +15,6 @@ var margin = {
 
 //parse date
 var formatDate = d3.time.format("%Y-%m-%d");
-//var formatPercent = d3.format(".1f");
 
 var x = d3.time.scale()
     .range([0, width]);
@@ -37,11 +36,8 @@ var yAxis = d3.svg.axis()
 //define variables for line chart
 var line = d3.svg.line()
     .x(function(d) { 
-        return x(d.observation_date); 
-        })
-    .y(function(d) { 
-        return y(d.CLMUR); 
-        });
+        return x(d["observation_date"]); 
+    });
 
 //define SVG
 var svg = d3.select(".chart").append("svg")
@@ -51,26 +47,51 @@ var svg = d3.select(".chart").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 function type(d) {
-  d.observation_date = formatDate.parse(d.observation_date);
-  d.CLMUR = +d.CLMUR;
+  d["observation_date"] = formatDate.parse(d["observation_date"]);
+  d["CLMUR"] = +d["CLMUR"];
+  d["CLMURN"] = +d["CLMURN"];
   return d;
 }
 
 function setNav() {
     $(".btn").on("click", function (){
+        var val = $(this).attr("val");
+        chartThisValue = val;
+        updateLine();
+    });
+}
         
-    })
+function updateLine() {
+    line.y(function(d) { 
+        return y(d[chartThisValue]); 
+        });
+    
+    d3.select(".line")
+        .transition()
+        .duration(500)
+        .attr("d", line);
 }
 
 //load data
 d3.csv("columbia_unemployment2.csv", type, function(error, data) {
   if (error) throw error;
+  
+    setNav();
 
-  x.domain(d3.extent(data, function(d) { 
-      return d.observation_date; 
+    var timeDomain = d3.extent(data, function(d) {
+      return d["observation_date"];
+    })
+    
+    var maxUnemployment = d3.max(data, function(d) {
+      return d[chartThisValue];
+    })
+    
+    x.domain(d3.extent(data, function(d) { 
+      return d["observation_date"]; 
     }));
-  y.domain(d3.extent(data, function(d) { 
-      return d.CLMUR; 
+  
+    y.domain(d3.extent(data, function(d) { 
+      return d["CLMUR"]; 
     }));
     
     
@@ -100,10 +121,9 @@ d3.csv("columbia_unemployment2.csv", type, function(error, data) {
 
   svg.append("path")
       .datum(data)
-      .attr("class", "line")
-      .attr("d", line);
-    
-    
+      .attr("class", "line");
+
+  updateLine();
 
 });
 
