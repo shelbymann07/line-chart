@@ -1,5 +1,7 @@
 //global variables
 
+var chartThisValue = "CLMUR";
+
 var margin = {
     top: 20, 
     right: 20, 
@@ -54,9 +56,14 @@ function type(d) {
   return d;
 }
 
+function setNav() {
+    $(".btn").on("click", function (){
+        
+    })
+}
 
 //load data
-d3.csv("data.csv", type, function(error, data) {
+d3.csv("columbia_unemployment2.csv", type, function(error, data) {
   if (error) throw error;
 
   x.domain(d3.extent(data, function(d) { 
