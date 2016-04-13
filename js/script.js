@@ -55,6 +55,10 @@ function type(d) {
 
 function setNav() {
     $(".btn").on("click", function (){
+        
+        $(".btn").removeClass("active");
+        $(this).addClass("active");
+        
         var val = $(this).attr("val");
         chartThisValue = val;
         updateLine();
